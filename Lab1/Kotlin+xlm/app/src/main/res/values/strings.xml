@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Send</string>
+    <string name="hello_i_am_a_textview">Hello, I am a TextView</string>
+    <string name="image">image</string>
+    <string name="button">button</string>
+    <string name="example_gmail_com">example@gmail.com</string>
+    <string name="Email">Email</string>
+</resources>
