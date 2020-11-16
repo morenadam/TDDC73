@@ -5,11 +5,11 @@ import CardForm from './components/CardForm';
 
 const App = () => {
   return (
-    <View style={styles.text}>
-      <View>
+    <View style={styles.container}>
+      <View style={styles.cardContainer}>
         <Card />
       </View>
-      <View>
+      <View style={styles.formContainer}>
         <CardForm />
       </View>
     </View>
@@ -17,14 +17,16 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  text: {flex: 1, justifyContent: 'center', alignItems: 'center'},
   image: {flex: 1, width: undefined, height: undefined},
   container: {
-    paddingTop: 50,
+    flex: 1,
   },
-  tinyLogo: {
-    width: 50,
-    height: 50,
+  cardContainer: {
+    flex: 4,
+    padding: 10,
+  },
+  formContainer: {
+    flex: 6,
   },
   logo: {
     width: 66,
