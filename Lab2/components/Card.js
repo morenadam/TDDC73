@@ -1,7 +1,7 @@
 import React from 'react';
 import {ImageBackground, StyleSheet, Text, View, Image} from 'react-native';
 
-const Card = () => {
+const Card = ({state}) => {
   let random = Math.floor(Math.random() * 25 + 1);
   let tempCardProp = 'amex';
   const image = {
@@ -14,27 +14,46 @@ const Card = () => {
     uri: `https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/${tempCardProp}.png`,
   };
 
-  return (
-    <ImageBackground source={image} style={styles.card}>
-      <View style={styles.column}>
-        <View style={styles.row}>
-          <Image source={chip} style={styles.chip} />
+  const Front = () => {
+    return (
+      <ImageBackground source={image} style={styles.card}>
+        <View style={styles.column}>
+          <View style={styles.row}>
+            <Image source={chip} style={styles.chip} />
+            <Image source={cardType} style={styles.cardType} />
+          </View>
+          <Text style={styles.number}>#### #### #### ####</Text>
+          <View style={styles.row}>
+            <View>
+              <Text style={styles.cardHolder}>Card Holder</Text>
+              <Text style={styles.cardHolder}>Full Name</Text>
+            </View>
+            <View>
+              <Text style={styles.expires}>Expires</Text>
+              <Text style={styles.expires}>MM/YY</Text>
+            </View>
+          </View>
+        </View>
+      </ImageBackground>
+    );
+  };
+
+  const Back = () => {
+    return (
+      <ImageBackground source={image} style={styles.card}>
+        <Text style={styles.stripe}></Text>
+        <View style={styles.backInfo}>
+          <Text style={styles.expires}>CVV</Text>
+          <View style={styles.cvv}>
+            <Text>***</Text>
+          </View>
           <Image source={cardType} style={styles.cardType} />
         </View>
-        <Text style={styles.number}>#### #### #### ####</Text>
-        <View style={styles.row}>
-          <View>
-            <Text style={styles.cardHolder}>Card Holder</Text>
-            <Text style={styles.cardHolder}>Full Name</Text>
-          </View>
-          <View>
-            <Text style={styles.expires}>Expires</Text>
-            <Text style={styles.expires}>MM/YY</Text>
-          </View>
-        </View>
-      </View>
-    </ImageBackground>
-  );
+      </ImageBackground>
+    );
+  };
+
+  return state.isCardFlipped ? <Back /> : <Front />;
 };
 
 const styles = StyleSheet.create({
@@ -65,7 +84,7 @@ const styles = StyleSheet.create({
   },
   expires: {
     color: 'white',
-    fontSize: 17,
+    fontSize: 14,
     textAlign: 'center',
   },
   number: {
@@ -83,6 +102,35 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     width: 80,
     height: 80,
+  },
+  stripe: {
+    marginTop: 20,
+    color: 'white',
+    fontSize: 42,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.82)',
+  },
+  backInfo: {
+    marginTop: 20,
+    flex: 1,
+    alignItems: 'flex-end',
+    paddingRight: 20,
+    paddingLeft: 20,
+  },
+  cvv: {
+    marginTop: 5,
+    color: 'black',
+    fontSize: 15,
+    fontWeight: 'bold',
+    textAlign: 'right',
+    backgroundColor: 'white',
+    borderRadius: 5,
+    height: 40,
+    alignSelf: 'stretch',
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    paddingRight: 10,
   },
 });
 

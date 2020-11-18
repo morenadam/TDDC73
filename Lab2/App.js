@@ -1,16 +1,26 @@
-import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import React, {createContext, useState, useEffect} from 'react';
+import {View, Text, Image, StyleSheet, Button} from 'react-native';
 import Card from './components/Card';
 import CardForm from './components/CardForm';
 
+const initialState = {
+  cardNumber: '#### #### #### ####',
+  cardHolder: 'FULL NAME',
+  cardMonth: '',
+  cardYear: '',
+  cardCvv: '',
+  isCardFlipped: false,
+};
+
 const App = () => {
+  const [state, setState] = useState(initialState);
   return (
     <View style={styles.container}>
       <View style={styles.cardContainer}>
-        <Card />
+        <Card state={state} />
       </View>
       <View style={styles.formContainer}>
-        <CardForm />
+        <CardForm state={state} setState={setState} />
       </View>
     </View>
   );

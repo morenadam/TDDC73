@@ -1,10 +1,20 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, Button} from 'react-native';
 
-const CardForm = () => {
+const CardForm = ({state, setState}) => {
   return (
     <View>
       <Text>Credit Card Form</Text>
+      <Button
+        title="Back"
+        onPress={() => {
+          setState({...state, isCardFlipped: true});
+        }}></Button>
+      <Button
+        title="Front"
+        onPress={() => {
+          setState({...state, isCardFlipped: false});
+        }}></Button>
     </View>
   );
 };
