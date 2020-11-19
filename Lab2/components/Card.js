@@ -1,17 +1,36 @@
-import React from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import {ImageBackground, StyleSheet, Text, View, Image} from 'react-native';
 
+const CARDS = {
+  visa: '^4',
+  amex: '^(34|37)',
+  mastercard: '^5[1-5]',
+  discover: '^6011',
+  unionpay: '^62',
+  troy: '^9792',
+  diners: '^(30[0-5]|36)',
+};
+
+let random = Math.floor(Math.random() * 25 + 1);
+const image = {
+  uri: `https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/${random}.jpeg`,
+};
+const chip = {
+  uri: `https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/chip.png`,
+};
+
 const Card = ({state}) => {
-  let random = Math.floor(Math.random() * 25 + 1);
-  let tempCardProp = 'amex';
-  const image = {
-    uri: `https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/${random}.jpeg`,
-  };
-  const chip = {
-    uri: `https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/chip.png`,
-  };
-  const cardType = {
-    uri: `https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/${tempCardProp}.png`,
+  const getCardType = () => {
+    const number = state.cardNumber;
+    let re;
+    for (const [card, pattern] of Object.entries(CARDS)) {
+      re = new RegExp(pattern);
+      if (number.match(re) != null) {
+        return card;
+      }
+    }
+
+    return 'visa'; // default type
   };
 
   const Front = () => {
@@ -20,9 +39,14 @@ const Card = ({state}) => {
         <View style={styles.column}>
           <View style={styles.row}>
             <Image source={chip} style={styles.chip} />
-            <Image source={cardType} style={styles.cardType} />
+            <Image
+              source={{
+                uri: `https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/${getCardType()}.png`,
+              }}
+              style={styles.cardType}
+            />
           </View>
-          <Text style={styles.number}>#### #### #### ####</Text>
+          <Text style={styles.number}>{state.cardNumber}</Text>
           <View style={styles.row}>
             <View>
               <Text style={styles.cardHolder}>Card Holder</Text>
@@ -96,12 +120,12 @@ const styles = StyleSheet.create({
   chip: {
     width: 70,
     height: 50,
-    resizeMode: 'contain',
+    resizeMode: 'cover',
   },
   cardType: {
-    resizeMode: 'contain',
+    resizeMode: 'cover',
     width: 80,
-    height: 80,
+    height: 40,
   },
   stripe: {
     marginTop: 20,

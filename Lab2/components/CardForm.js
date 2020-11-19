@@ -1,23 +1,54 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, StyleSheet, Button, TextInput, Alert} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 
-const CardForm = ({state, setState}) => {
-  const [value, onChangeText] = React.useState('Useless Placeholder');
+const CardForm = ({state, onUpdateState}) => {
+  const [cardNumber, setCardNumber] = useState('');
+  const [cardNumberMaxLength, setCardNumberMaxLength] = useState(20);
+
+  const onCardNumberChange = (text, name) => {
+    let cardNumber = text;
+    //Replace everything except numbers
+    text = text.replace(/\D/g, '');
+    if (/^3[47]\d{0,13}$/.test(text)) {
+      // american express, 15 digits
+      cardNumber = text
+        .replace(/(\d{4})/, '$1 ')
+        .replace(/(\d{4}) (\d{6})/, '$1 $2 ');
+      setCardNumberMaxLength(15);
+    } else if (/^3(?:0[0-5]|[68]\d)\d{0,11}$/.test(text)) {
+      // diner's club, 14 digits
+      cardNumber = text
+        .replace(/(\d{4})/, '$1 ')
+        .replace(/(\d{4}) (\d{6})/, '$1 $2 ');
+      setCardNumberMaxLength(14);
+    } else if (/^\d{0,16}$/.test(text)) {
+      // regular cc number, 16 digits
+      cardNumber = text
+        .replace(/(\d{4})/, '$1 ')
+        .replace(/(\d{4}) (\d{4})/, '$1 $2 ')
+        .replace(/(\d{4}) (\d{4}) (\d{4})/, '$1 $2 $3 ');
+      setCardNumberMaxLength(14);
+    }
+    setCardNumber(text);
+    onUpdateState(name, cardNumber);
+  };
 
   return (
     <View style={styles.container}>
       <Text>Card Number</Text>
       <TextInput
         style={styles.textInput}
-        onChangeText={(text) => onChangeText(text)}
-        value={value}
+        onChangeText={(text) => onCardNumberChange(text, 'cardNumber')}
+        value={cardNumber}
+        maxLength={cardNumberMaxLength}
       />
-      <Text>Card Number</Text>
+      <Text>Card Holder</Text>
       <TextInput
         style={styles.textInput}
         onChangeText={(text) => onChangeText(text)}
-        value={value}
+        Value={state.cardName}
+        maxLength={cardNumberMaxLength}
       />
       <View style={styles.row}>
         <View>
@@ -68,7 +99,7 @@ const CardForm = ({state, setState}) => {
               borderRadius: 3,
             }}
             onChangeText={(text) => onChangeText(text)}
-            value={value}
+            value={state.cvv}
           />
         </View>
       </View>

@@ -4,7 +4,7 @@ import Card from './components/Card';
 import CardForm from './components/CardForm';
 
 const initialState = {
-  cardNumber: '#### #### #### ####',
+  cardNumber: '',
   cardHolder: 'FULL NAME',
   cardMonth: '',
   cardYear: '',
@@ -14,13 +14,31 @@ const initialState = {
 
 const App = () => {
   const [state, setState] = useState(initialState);
+
+  const updateStateValues = (keyName, value) => {
+    setState({
+      ...state,
+      [keyName]: value || initialState[keyName],
+    });
+  };
+
+  //debug
+  useEffect(() => {
+    console.log('cardnumber: ' + state.cardNumber);
+    console.log('cardholder:' + state.cardHolder);
+    console.log(state.cardMonth);
+    console.log(state.cardYear);
+    console.log(state.cardCvv);
+    console.log(state.isCardFlipped);
+  }, [state]);
+
   return (
     <View style={styles.container}>
       <View style={styles.cardContainer}>
         <Card state={state} />
       </View>
       <View style={styles.formContainer}>
-        <CardForm state={state} setState={setState} />
+        <CardForm state={state} onUpdateState={updateStateValues} />
       </View>
     </View>
   );
@@ -28,9 +46,7 @@ const App = () => {
 
 const styles = StyleSheet.create({
   image: {flex: 1, width: undefined, height: undefined},
-  container: {
-    flex: 1,
-  },
+  container: {flex: 1},
   cardContainer: {
     flex: 4,
     padding: 10,
