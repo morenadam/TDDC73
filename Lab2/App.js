@@ -1,5 +1,5 @@
-import React, {createContext, useState, useEffect} from 'react';
-import {View, Text, Image, StyleSheet, Button} from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet} from 'react-native';
 import Card from './components/Card';
 import CardForm from './components/CardForm';
 
@@ -22,16 +22,6 @@ const App = () => {
     });
   };
 
-  //debug
-  useEffect(() => {
-    console.log('cardnumber: ' + state.cardNumber);
-    console.log('cardholder:' + state.cardHolder);
-    console.log(state.cardMonth);
-    console.log(state.cardYear);
-    console.log(state.cardCvv);
-    console.log(state.isCardFlipped);
-  }, [state]);
-
   return (
     <View style={styles.container}>
       <View style={styles.cardContainer}>
@@ -45,7 +35,6 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  image: {flex: 1, width: undefined, height: undefined},
   container: {flex: 1},
   cardContainer: {
     flex: 4,
@@ -53,10 +42,6 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 6,
-  },
-  logo: {
-    width: 66,
-    height: 58,
   },
 });
 
