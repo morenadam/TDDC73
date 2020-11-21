@@ -28,7 +28,7 @@ const CardForm = ({state, onUpdateState}) => {
         .replace(/(\d{4})/, '$1 ')
         .replace(/(\d{4}) (\d{4})/, '$1 $2 ')
         .replace(/(\d{4}) (\d{4}) (\d{4})/, '$1 $2 $3 ');
-      setCardNumberMaxLength(14);
+      setCardNumberMaxLength(16);
     }
     setCardNumber(text);
     onUpdateState(name, cardNumber);
@@ -42,49 +42,54 @@ const CardForm = ({state, onUpdateState}) => {
         onChangeText={(text) => onCardNumberChange(text, 'cardNumber')}
         value={cardNumber}
         maxLength={cardNumberMaxLength}
+        keyboardType="numeric"
       />
       <Text>Card Holder</Text>
       <TextInput
         style={styles.textInput}
-        onChangeText={(text) => onChangeText(text)}
+        onChangeText={(text) => onUpdateState('cardHolder', text)}
         Value={state.cardName}
-        maxLength={cardNumberMaxLength}
+        maxLength={25}
       />
       <View style={styles.row}>
         <View>
           <Text style={{marginLeft: 5}}>Expiration Date</Text>
           <View style={styles.row}>
             <Picker
-              selectedValue={'Month'}
+              selectedValue={state.cardMonth}
               style={{height: 50, width: 120}}
-              onValueChange={(itemValue, itemIndex) => console.log(itemValue)}>
+              onValueChange={(itemValue, itemIndex) =>
+                onUpdateState('cardMonth', itemValue)
+              }>
               <Picker.Item label="Month" value="0" />
-              <Picker.Item label="1" value="1" />
-              <Picker.Item label="2" value="2" />
-              <Picker.Item label="3" value="3" />
-              <Picker.Item label="4" value="4" />
-              <Picker.Item label="5" value="5" />
-              <Picker.Item label="6" value="6" />
-              <Picker.Item label="7" value="7" />
-              <Picker.Item label="8" value="8" />
-              <Picker.Item label="9" value="9" />
+              <Picker.Item label="01" value="01" />
+              <Picker.Item label="02" value="02" />
+              <Picker.Item label="03" value="03" />
+              <Picker.Item label="04" value="04" />
+              <Picker.Item label="05" value="05" />
+              <Picker.Item label="06" value="06" />
+              <Picker.Item label="07" value="07" />
+              <Picker.Item label="08" value="08" />
+              <Picker.Item label="09" value="09" />
               <Picker.Item label="10" value="10" />
               <Picker.Item label="11" value="11" />
               <Picker.Item label="12" value="12" />
             </Picker>
             <Picker
-              selectedValue={'Year'}
+              selectedValue={state.cardYear}
               style={{
                 height: 50,
                 width: 120,
               }}
-              onValueChange={(itemValue, itemIndex) => console.log(itemValue)}>
+              onValueChange={(itemValue, itemIndex) =>
+                onUpdateState('cardYear', itemValue)
+              }>
               <Picker.Item label="Year" value="0" />
               <Picker.Item label="2020" value="2020" />
-              <Picker.Item label="2021" value="2020" />
-              <Picker.Item label="2022" value="2020" />
-              <Picker.Item label="2023" value="2020" />
-              <Picker.Item label="2024" value="2020" />
+              <Picker.Item label="2021" value="2021" />
+              <Picker.Item label="2022" value="2022" />
+              <Picker.Item label="2023" value="2023" />
+              <Picker.Item label="2024" value="2024" />
             </Picker>
           </View>
         </View>
@@ -98,12 +103,19 @@ const CardForm = ({state, onUpdateState}) => {
               borderWidth: 1,
               borderRadius: 3,
             }}
-            onChangeText={(text) => onChangeText(text)}
+            onChangeText={(text) => onUpdateState('cardCvv', text)}
+            onFocus={() => onUpdateState('isCardFlipped', true)}
+            onBlur={() => onUpdateState('isCardFlipped', false)}
+            maxLength={4}
+            textContentType="creditCardNumber"
             value={state.cvv}
+            keyboardType="numeric"
           />
         </View>
       </View>
-      <Button title="Submit" onPress={() => Alert.alert('Card submitted')} />
+      <View style={{paddingTop: 30}}>
+        <Button title="Submit" onPress={() => Alert.alert('Card submitted')} />
+      </View>
     </View>
   );
 };

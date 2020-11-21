@@ -4,10 +4,10 @@ import Card from './components/Card';
 import CardForm from './components/CardForm';
 
 const initialState = {
-  cardNumber: '',
+  cardNumber: '#### #### #### ####',
   cardHolder: 'FULL NAME',
-  cardMonth: '',
-  cardYear: '',
+  cardMonth: 'MM',
+  cardYear: 'YY',
   cardCvv: '',
   isCardFlipped: false,
 };

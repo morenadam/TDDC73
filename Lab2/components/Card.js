@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useMemo} from 'react';
 import {ImageBackground, StyleSheet, Text, View, Image} from 'react-native';
+import FastImage from 'react-native-fast-image';
 
 const CARDS = {
   visa: '^4',
@@ -15,9 +16,8 @@ let random = Math.floor(Math.random() * 25 + 1);
 const image = {
   uri: `https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/${random}.jpeg`,
 };
-const chip = {
-  uri: `https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/chip.png`,
-};
+
+const chip = require('../assets/images/chip.png');
 
 const Card = ({state}) => {
   const getCardType = () => {
@@ -29,7 +29,6 @@ const Card = ({state}) => {
         return card;
       }
     }
-
     return 'visa'; // default type
   };
 
@@ -39,22 +38,32 @@ const Card = ({state}) => {
         <View style={styles.column}>
           <View style={styles.row}>
             <Image source={chip} style={styles.chip} />
-            <Image
+            {/* Had to use FastImage for image not to flicker when using contain */}
+            <FastImage
+              style={styles.cardType}
               source={{
                 uri: `https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/${getCardType()}.png`,
+                priority: FastImage.priority.normal,
               }}
-              style={styles.cardType}
+              resizeMode={FastImage.resizeMode.contain}
             />
           </View>
           <Text style={styles.number}>{state.cardNumber}</Text>
           <View style={styles.row}>
             <View>
               <Text style={styles.cardHolder}>Card Holder</Text>
-              <Text style={styles.cardHolder}>Full Name</Text>
+              <Text style={styles.cardHolder}>
+                {state.cardHolder.toUpperCase()}
+              </Text>
             </View>
             <View>
               <Text style={styles.expires}>Expires</Text>
-              <Text style={styles.expires}>MM/YY</Text>
+              <Text style={styles.expires}>
+                {state.cardMonth}/
+                {state.cardYear == 'YY'
+                  ? state.cardYear
+                  : state.cardYear.substring(2, 4)}
+              </Text>
             </View>
           </View>
         </View>
@@ -67,11 +76,18 @@ const Card = ({state}) => {
       <ImageBackground source={image} style={styles.card}>
         <Text style={styles.stripe}></Text>
         <View style={styles.backInfo}>
-          <Text style={styles.expires}>CVV</Text>
+          <Text style={{color: 'white'}}>CVV</Text>
           <View style={styles.cvv}>
-            <Text>***</Text>
+            <Text>{state.cardCvv}</Text>
           </View>
-          <Image source={cardType} style={styles.cardType} />
+          <FastImage
+            style={styles.cardType}
+            source={{
+              uri: `https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/${getCardType()}.png`,
+              priority: FastImage.priority.normal,
+            }}
+            resizeMode={FastImage.resizeMode.contain}
+          />
         </View>
       </ImageBackground>
     );
@@ -103,8 +119,6 @@ const styles = StyleSheet.create({
   },
   cardHolder: {
     color: 'white',
-    fontSize: 17,
-    textAlign: 'center',
   },
   expires: {
     color: 'white',
@@ -113,19 +127,19 @@ const styles = StyleSheet.create({
   },
   number: {
     color: 'white',
-    fontSize: 22,
-    textAlign: 'center',
+    fontSize: 25,
     letterSpacing: 3,
+    paddingLeft: 20,
   },
   chip: {
-    width: 70,
-    height: 50,
+    width: 50,
+    height: 40,
     resizeMode: 'cover',
   },
   cardType: {
-    resizeMode: 'cover',
     width: 80,
-    height: 40,
+    height: 60,
+    resizeMode: 'cover',
   },
   stripe: {
     marginTop: 20,
@@ -136,9 +150,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.82)',
   },
   backInfo: {
-    marginTop: 20,
+    marginBottom: 20,
     flex: 1,
     alignItems: 'flex-end',
+    justifyContent: 'space-evenly',
     paddingRight: 20,
     paddingLeft: 20,
   },
