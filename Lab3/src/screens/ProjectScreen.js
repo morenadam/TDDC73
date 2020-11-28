@@ -5,7 +5,7 @@ import {gql, useQuery} from '@apollo/client';
 import styles from '../styles';
 import Loading from '../components/Loading';
 
-const SECTIONS_QUERY = gql`
+const PROJECT_QUERY = gql`
   query MySecondQuery($id: ID!) {
     node(id: $id) {
       id
@@ -35,16 +35,8 @@ const SECTIONS_QUERY = gql`
   }
 `;
 
-const SectionItem = ({section, chapter}) => (
-  <View style={styles.item}>
-    <Text style={styles.header}>
-      {chapter.number}.{section.number}: {section.title}
-    </Text>
-  </View>
-);
-
 const ProjectScreen = ({route}) => {
-  const {data, loading} = useQuery(SECTIONS_QUERY, {
+  const {data, loading} = useQuery(PROJECT_QUERY, {
     variables: {id: route.params.project.id},
   });
 
@@ -54,25 +46,35 @@ const ProjectScreen = ({route}) => {
 
   const projectInfo = data.node;
   console.log(projectInfo);
-
   return (
-    <View>
-      <Text style={styles.header}>{projectInfo.name}</Text>
-      <Text style={styles.subheader}>{projectInfo.description}</Text>
-      <Text style={styles.subheader}>
-        License:{' '}
-        {projectInfo.licenseInfo ? projectInfo.licenseInfo.name : 'None'}
-      </Text>
-      <Text style={styles.subheader}>
-        Number of Commits:{' '}
-        {projectInfo.defaultBranchRef.target.history.totalCount}
-      </Text>
-      <Text style={styles.subheader}>
-        Number of Stars: {projectInfo.stargazerCount}
-      </Text>
-      <Text style={styles.subheader}>
-        Number of Forks: {projectInfo.forkCount}
-      </Text>
+    <View style={styles.container}>
+      <View style={styles.projectHeader}>
+        <Text style={{fontSize: 20, fontWeight: 'bold'}}>
+          {projectInfo.name}
+        </Text>
+        <Text style={{textAlign: 'center'}}>{projectInfo.description}</Text>
+      </View>
+
+      <View style={styles.column}>
+        <View style={styles.row}>
+          <Text>License: </Text>
+          <Text>
+            {projectInfo.licenseInfo ? projectInfo.licenseInfo.name : 'None'}
+          </Text>
+        </View>
+        <View style={styles.row}>
+          <Text>Number of Commits: </Text>
+          <Text>{projectInfo.defaultBranchRef.target.history.totalCount}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text>Number of Stars: </Text>
+          <Text>{projectInfo.stargazerCount}</Text>
+        </View>
+        <View style={styles.row}>
+          <Text>Number of Forks: </Text>
+          <Text>{projectInfo.forkCount}</Text>
+        </View>
+      </View>
     </View>
   );
 };
