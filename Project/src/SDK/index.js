@@ -1,3 +1,4 @@
 import StepsLeft from './StepsLeft';
+import Carousel from './Carousel';
 
-export {StepsLeft};
+export {StepsLeft, Carousel};
