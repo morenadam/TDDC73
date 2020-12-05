@@ -22,7 +22,22 @@ const data = [
   {
     img:
       'https://image.freepik.com/free-photo/fried-eggs-drinks-breakfast_23-2147758279.jpg',
-    title: 'Breakfast Club part 2',
+    title: 'Test 2',
+  },
+  {
+    img:
+      'https://image.freepik.com/free-photo/indian-masala-egg-omelet_136595-191.jpg',
+    title: 'Killer',
+  },
+  {
+    img:
+      'https://image.freepik.com/free-photo/north-indian-thali-tipical-meal-served-stainless-steel-plate-blue-table_107467-1331.jpg',
+    title: 'hello again my friend',
+  },
+  {
+    img:
+      'https://image.freepik.com/free-photo/fried-eggs-drinks-breakfast_23-2147758279.jpg',
+    title: 'Breakfast Club',
   },
   {
     img:
@@ -32,7 +47,22 @@ const data = [
   {
     img:
       'https://image.freepik.com/free-photo/north-indian-thali-tipical-meal-served-stainless-steel-plate-blue-table_107467-1331.jpg',
-    title: 'Lunch',
+    title: 'Nice Guys',
+  },
+  {
+    img:
+      'https://image.freepik.com/free-photo/fried-eggs-drinks-breakfast_23-2147758279.jpg',
+    title: 'Test 2',
+  },
+  {
+    img:
+      'https://image.freepik.com/free-photo/indian-masala-egg-omelet_136595-191.jpg',
+    title: 'Killer',
+  },
+  {
+    img:
+      'https://image.freepik.com/free-photo/north-indian-thali-tipical-meal-served-stainless-steel-plate-blue-table_107467-1331.jpg',
+    title: 'hello again my friend',
   },
 ];
 
@@ -40,7 +70,7 @@ const App = () => {
   return (
     <View style={{flex: 1}}>
       {/* <StepsLeftUsage /> */}
-      <Carousel items={data}></Carousel>
+      <Carousel items={data} itemsPerPage={3}></Carousel>
     </View>
   );
 };
