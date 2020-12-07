@@ -3,24 +3,36 @@ import {Text, TouchableOpacity, View, Image, StyleSheet} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faArrowLeft, faArrowRight} from '@fortawesome/free-solid-svg-icons';
 
-const Card = ({cardInfo, index}) => (
-  <TouchableOpacity style={styles.cardContainer} key={index}>
+const Card = ({cardInfo, rounded, callback}) => (
+  <TouchableOpacity
+    style={{...styles.card, borderRadius: rounded ? 10 : 0}}
+    onPress={callback ? () => callback(cardInfo) : () => {}}>
     <Image source={{uri: cardInfo.img}} style={styles.coverImage} />
-    <View>
-      <Text style={styles.title}>{cardInfo.title}</Text>
-    </View>
+    {cardInfo.title && (
+      <View>
+        <Text style={styles.title}>{cardInfo.title}</Text>
+      </View>
+    )}
   </TouchableOpacity>
 );
 
-const Carousel = ({items, itemsPerPage}) => {
+const Carousel = (props) => {
   const [pageIndex, setPageIndex] = useState(0);
-
   let dots = [];
-  let numberOfPages = items.length / itemsPerPage;
+  let myColor = props.colorTheme ? props.colorTheme : '#39CCCC';
+  let itemsPerPage = props.itemsPerPage ? props.itemsPerPage : 3;
+  let numberOfPages = props.items.length / itemsPerPage; // get number of pages that will display cards
+
+  // set dots to display number of existing pages
+  // if active page, set colored dot, otherwise grey dot
   for (let i = 0; i < numberOfPages; i++) {
     pageIndex === i
-      ? dots.push(<View style={styles.activeCircle} />)
-      : dots.push(<View style={styles.circle} />);
+      ? dots.push(
+          <View key={i} style={{...styles.circle, backgroundColor: myColor}} />,
+        )
+      : dots.push(
+          <View key={i} style={{...styles.circle, backgroundColor: 'grey'}} />,
+        );
   }
 
   return (
@@ -29,6 +41,7 @@ const Carousel = ({items, itemsPerPage}) => {
       <View style={styles.body}>
         <View>
           <TouchableOpacity
+            // arrow to go left
             onPress={() => {
               setPageIndex(pageIndex - 1);
             }}
@@ -42,35 +55,38 @@ const Carousel = ({items, itemsPerPage}) => {
             </View>
           </TouchableOpacity>
         </View>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-          }}>
-          {items
+        <View style={styles.cardsContainer}>
+          {props.items
+            //get correct range of items
             .slice(
               pageIndex * itemsPerPage,
               pageIndex * itemsPerPage + itemsPerPage,
             )
             .map((card, index) => (
-              <Card cardInfo={card} index={index}></Card>
+              <Card
+                key={index}
+                cardInfo={card}
+                rounded={props.rounded}
+                callback={props.onPress}
+              />
             ))}
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            setPageIndex(pageIndex + 1);
-          }}
-          disabled={pageIndex === numberOfPages - 1}>
-          <View>
-            <FontAwesomeIcon
-              icon={faArrowRight}
-              size={32}
-              color={pageIndex === numberOfPages - 1 ? 'grey' : 'black'}
-            />
-          </View>
-        </TouchableOpacity>
+        <View>
+          <TouchableOpacity
+            // arrow to go right
+            onPress={() => {
+              setPageIndex(pageIndex + 1);
+            }}
+            disabled={pageIndex === numberOfPages - 1}>
+            <View>
+              <FontAwesomeIcon
+                icon={faArrowRight}
+                size={32}
+                color={pageIndex === numberOfPages - 1 ? 'grey' : 'black'}
+              />
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -78,16 +94,20 @@ const Carousel = ({items, itemsPerPage}) => {
 
 const styles = StyleSheet.create({
   header: {flexDirection: 'row', justifyContent: 'center', paddingTop: 10},
-  cardContainer: {
+  cardsContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  card: {
     borderWidth: 1,
-    borderRadius: 10,
     overflow: 'hidden',
     margin: 5,
     width: 95,
   },
   body: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     padding: 10,
   },
@@ -109,14 +129,6 @@ const styles = StyleSheet.create({
     height: 10,
     margin: 10,
     borderRadius: 50,
-    backgroundColor: 'grey',
-  },
-  activeCircle: {
-    width: 10,
-    height: 10,
-    margin: 10,
-    borderRadius: 50,
-    backgroundColor: '#0074D9',
   },
 });
 

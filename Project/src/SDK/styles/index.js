@@ -4,7 +4,12 @@ import {StyleSheet, Dimensions} from 'react-native';
 const myColor = 'teal';
 
 export default StyleSheet.create({
-  container: {
+  stepsLeftContainer: {
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    height: '100%',
+  },
+  headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderBottomColor: 'black',
@@ -13,6 +18,10 @@ export default StyleSheet.create({
   contentContainer: {
     width: Dimensions.get('window').width,
     flex: 2,
+  },
+  footerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   row: {
     flexDirection: 'row',
@@ -32,7 +41,6 @@ export default StyleSheet.create({
   },
   line: {
     borderBottomWidth: 1,
-    borderBottomColor: myColor,
     width: '85%',
     position: 'absolute',
     top: 35,

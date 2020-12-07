@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View, Alert} from 'react-native';
 
-//import the react-native-steps-left
+//import StepsLeft from our SDK
 import {StepsLeft} from './SDK';
 
 // setup the step content components
@@ -12,6 +12,7 @@ const Step1Content = () => {
     </View>
   );
 };
+
 const Step2Content = () => {
   return (
     <View style={{alignItems: 'center'}}>
@@ -19,6 +20,7 @@ const Step2Content = () => {
     </View>
   );
 };
+
 const Step3Content = () => {
   return (
     <View style={{alignItems: 'center'}}>
@@ -34,7 +36,7 @@ const steps = [
   {title: 'Confirm', component: <Step3Content />},
 ];
 
-// setup callback function for submit
+// setup submit function
 const onFormSubmit = () => {
   Alert.alert(
     'Title',
@@ -59,10 +61,15 @@ const StepsLeftUsage = () => {
 
   // Optional props:
   // startingStep - Change starting index
-  // colorTheme - Change the color theme e.g "navy"
+  // colorTheme - Change the color theme
   return (
-    <View style={{padding: 30}}>
-      <StepsLeft steps={steps} onSubmit={onFormSubmit} />
+    <View style={{padding: 30, flex: 1}}>
+      <StepsLeft
+        steps={steps}
+        onSubmit={onFormSubmit}
+        startingStep={0}
+        colorTheme={'teal'}
+      />
     </View>
   );
 };
