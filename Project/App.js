@@ -6,8 +6,8 @@ import CarouselUsage from './src/CarouselUsage';
 const App = () => {
   return (
     <View style={{flex: 1}}>
-      {/* <CarouselUsage /> */}
-      <StepsLeftUsage />
+      <CarouselUsage />
+      {/* <StepsLeftUsage /> */}
     </View>
   );
 };

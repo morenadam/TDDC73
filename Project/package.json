@@ -1,5 +1,5 @@
 {
-  "name": "Project",
+  "name": "project",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -13,21 +13,31 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/react-native-fontawesome": "^0.2.6",
+    "enzyme-to-json": "^3.6.1",
+    "jest-serializer-enzyme": "^1.0.0",
     "react": "16.13.1",
+    "react-addons-test-utils": "^15.6.2",
+    "react-dom": "^17.0.1",
     "react-native": "0.63.4",
-    "react-native-svg": "^12.1.0"
+    "react-native-svg": "^12.1.0",
+    "sinon": "^9.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/runtime": "^7.8.4",
     "@react-native-community/eslint-config": "^1.1.0",
     "babel-jest": "^25.1.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^6.5.1",
-    "jest": "^25.1.0",
+    "jest": "^25.5.4",
     "metro-react-native-babel-preset": "^0.59.0",
     "react-test-renderer": "16.13.1"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   }
 }
